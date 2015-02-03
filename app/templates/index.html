@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+    <script type="text/javascript">
+
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var tests = {{tests|tojson|safe}}; // Load json.
+
+            var r_data = [];
+            var metrics = ['x'] ;
+            console.log(tests);
+
+            /* Load metric names */
+            for(metric in tests[0].metrics){
+                metrics.push(metric);
+            }
+            r_data.push(metrics);
+
+            /* Get data for each metric in the same order */
+            for(var i = 0; i < tests.length; i++){
+                var row = [i];
+                var test = tests[i];
+ 
+                for(metric in test.metrics){
+
+                    row.push(parseFloat(test.metrics[metric]));
+                }
+                r_data.push(row);
+            }
+            console.log(r_data);
+
+            /* Draw plot for each metric. */
+            for(var i = 1; i < r_data[0].length; i++){
+                var table = [[r_data[0][0], r_data[0][i]]];
+
+                for(var j = 1; j < r_data.length; j++){
+                    table.push([r_data[j][0], r_data[j][i]]);
+                }
+                console.log(table);
+                var data = google.visualization.arrayToDataTable(table);
+                var options = {
+                                title: r_data[0][i],
+                                legend: { position: 'bottom' }
+                                };
+
+                var div = document.createElement("div");
+                div.setAttribute('id', i); // and make sure myclass has some styles in css
+                document.body.appendChild(div);
+
+                var chart = new google.visualization.LineChart(document.getElementById(i));
+                chart.draw(data, options);
+
+            }
+
+      }
+        
+
+    </script>
+
+
+  	{%if user%}
+      <h1>Hello, {{ user }}!</h1>
+    {%else%}
+      <h1>Hello</h1>
+    {% endif %}
+    <ol>
+    {% for test in tests if test.name == 'benchmark_ChBody' %}
+
+    <li><strong>{{ test.name }} Metrics = </strong>  
+    	<ul>
+    	{% for key, value in test.metrics.iteritems() %}
+    		<li>{{key }} = {{value}}</li>
+    	{% endfor %}  
+    	</ul>
+    </li>
+    {% endfor %}  
+    </ol>  
+
+{% endblock %}
