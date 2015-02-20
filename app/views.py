@@ -57,13 +57,7 @@ def test(test_name):
         return render_template('test_all.html',
             title = title,
             user = "ERROR " + str(tests.status_code))
-
-@app.route('/tests/t/<test_run>')
-@app.route('/tests/t/<test_run>')
-def test_run(test_run):
-
     
-
 
 def set_token():
     url = "http://localhost:5000/chrono_test/api/"
@@ -73,4 +67,5 @@ def set_token():
     response = requests.get(url + "token",
                             auth = HTTPBasicAuth(data["username"], data["pw"]))
     app.config['CURRENT_TOKEN'] = response.json()['token']
+
 
