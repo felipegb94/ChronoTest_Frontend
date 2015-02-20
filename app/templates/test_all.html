@@ -32,6 +32,17 @@
             plot(metrics, run_names, runs);
 
       }
+      /*
+      function remove_plots(){
+        var counter = 0;
+        var elem = document.getElementById(counter);
+        while(elem != null){
+            elem.remove();
+            counter = counter + 1;
+        }
+      }*/
+        
+
     </script>
 
 
@@ -44,7 +55,7 @@
     <ol>
     {% for t in tests.run_names %}
         <li><strong> 
-            <a href = "/tests/{{t}}" id = "{{ t }}" onClick="remove_plots()"> {{ t }} </a>
+            <a href = "/tests/{{t}}" id = "{{ t }}" > {{ t }} </a>
         </strong></li>
     {% endfor %}
     </ol>  
