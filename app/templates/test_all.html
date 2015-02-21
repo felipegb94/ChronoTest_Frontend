@@ -7,42 +7,43 @@
 
         // Set a callback to run when the Google Visualization API is loaded.
         google.setOnLoadCallback(drawChart);
+        var tests = {{tests|tojson|safe}};
+        var metrics = []; // Array with metric names. Size = Number of plots
 
-        function drawChart() {
+        function drawChart(run_name) {
 
-            var tests = {{tests|tojson|safe}}; // Load json.
-            var run_names = tests.run_names;
+            var run_names = []; // Number of machines + name
             var runs = []; //  2D Array containing. Cols =  Number of machines, Rows = Run
-            var data_template = [['x']]; // Template to create the plot
-            var metrics = []; // Array with metric names. Size = Number of plots
+            
             //console.log(tests);
             //console.log(run_names);
+            console.log(run_name);
+            if(first){
+                console.log("1");
+                run_names = tests.run_names;
 
-            for(var i = 0; i < run_names.length; i++){
-                run = run_names[i];
-                runs.push(tests[run]);
+                for(var i = 0; i < run_names.length; i++){
+                    run = run_names[i];
+                    runs.push(tests[run]);
+                }
+
+                /* Load metric names */
+                for(metric in runs[0][0].metrics){
+                    metrics.push(metric);
+                }  
+            }
+            else{
+                run_name = run_name.getAttribute('id');
+                console.log("2!")
+                run_names.push(run_name);
+                runs.push(tests[run_name]);
             }
 
-            console.log(runs)
-            /* Load metric names */
-            for(metric in runs[0][0].metrics){
-                metrics.push(metric);
-            }
-            //console.log(metrics);
+
             plot(metrics, run_names, runs);
 
       }
-      /*
-      function remove_plots(){
-        var counter = 0;
-        var elem = document.getElementById(counter);
-        while(elem != null){
-            elem.remove();
-            counter = counter + 1;
-        }
-      }*/
         
-
     </script>
 
 
@@ -55,7 +56,7 @@
     <ol>
     {% for t in tests.run_names %}
         <li><strong> 
-            <a href = "/tests/{{t}}" id = "{{ t }}" > {{ t }} </a>
+            <a href = "#" id = "{{ t }}" onClick = "drawChart(this)" > {{ t }} </a>
         </strong></li>
     {% endfor %}
     </ol>  

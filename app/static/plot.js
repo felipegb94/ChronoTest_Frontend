@@ -1,3 +1,5 @@
+var first = true;
+var charts = [];
 function plot(metrics, run_names, runs){
 	
 	for(var i = 0; i < metrics.length; i++){
@@ -16,29 +18,37 @@ function plot(metrics, run_names, runs){
 			}
 			table.push(row);
 		}
-		console.log(table);
-
 
 		var data = google.visualization.arrayToDataTable(table);
+		var options = { title: metric_name, legend: { position: 'bottom' }};
 
+		if(first){
 
-		var options = {
-			title: metric_name,
-			legend: { position: 'bottom' }
-		};
+			var div = document.createElement("div");
+        	div.setAttribute('id', metric_name); // and make sure myclass has some styles in css
+        	div.setAttribute('class', 'metric');
+        	document.body.appendChild(div);
 
-		var div = document.createElement("div");
-                div.setAttribute('id', i); // and make sure myclass has some styles in css
-                document.body.appendChild(div);
+        	var chart = new google.visualization.LineChart(
+        									document.getElementById(metric_name));
+        	chart.draw(data, options);
+        	charts.push(chart);
+    	}
+    	else{
+    		console.log("Second try");
+    		var div = document.getElementById(metric_name);
+    		charts[i].draw(data, options)
 
-                var chart = new google.visualization.LineChart(
-                	document.getElementById(i));
-                chart.draw(data, options);
-                
-    }
+    	}
+
+	}
+	if(first){
+		first = false;
+	}
 }
 
 
 
 
-    
+
+
