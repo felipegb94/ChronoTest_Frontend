@@ -15,6 +15,9 @@
       //Where is my site?
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
+    <!--Load Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/button_style.css') }}">
+
 
   </head>
   <body>

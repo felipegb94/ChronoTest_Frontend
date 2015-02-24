@@ -1,8 +1,8 @@
 var first = true;
 var charts = [];
 function plot(metrics, run_names, runs){
-	
 	for(var i = 0; i < metrics.length; i++){
+
 		metric_name = metrics[i];
 		table = [['x']];
 
@@ -11,7 +11,9 @@ function plot(metrics, run_names, runs){
 		}
 
 		for(var j = 0; j < runs[0].length; j++){
-			row = [j];
+			row = [runs[0][j].timestamp];
+
+
 			for(var k = 0; k < runs.length; k++){
 				data_point = runs[k][j].metrics[metric_name];
 				row.push(data_point);
@@ -20,7 +22,15 @@ function plot(metrics, run_names, runs){
 		}
 
 		var data = google.visualization.arrayToDataTable(table);
-		var options = { title: metric_name, legend: { position: 'bottom' }};
+		var options = { 
+						title: metric_name, 
+						legend: { position: 'bottom' },
+						backgroundColor: '#F6F6F6',
+						series: { 0: {color: '#e2431e'},
+								  1: {color: '#1c91c0'},	
+								  2: {color: '#f1ca3a'}	
+								}
+					   };
 
 		if(first){
 

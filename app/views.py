@@ -9,7 +9,7 @@ from app import app
 @app.route('/index/')
 def index():
 
-    url = "http://localhost:5000/chrono_test/api/"
+    url = app.config['BACKEND_URL']
     tests = requests.get(url + "tests",
                          auth = HTTPBasicAuth(app.config['CURRENT_TOKEN'],""))
 
@@ -21,12 +21,11 @@ def index():
                          auth = HTTPBasicAuth(app.config['CURRENT_TOKEN'],""))
 
     title = 'Testing Infrastructure for Chrono'
-    user = app.config['HELLO']
 
     if(tests.status_code == 200):
         return render_template('index.html',
             title = title,
-            user = user,
+            user = "",
             tests = tests.json())
     else:
         return render_template('index.html',
@@ -38,7 +37,7 @@ def index():
 @app.route('/tests/<test_name>/')
 def test(test_name):
 
-    url = "http://localhost:5000/chrono_test/api/tests/" + test_name
+    url = app.config['BACKEND_URL'] + 'tests/' + test_name
     tests = requests.get(url, auth = HTTPBasicAuth(app.config['CURRENT_TOKEN'], ""))
 
     # Check if token has expired
@@ -46,12 +45,11 @@ def test(test_name):
         set_token()
 
     title = 'Testing Infrastructure for Chrono'
-    user = app.config['HELLO']
 
     if(tests.status_code == 200):
         return render_template('test_all.html',
             title = title,
-            user = user,
+            user = "",
             tests = tests.json())
     else:
         return render_template('test_all.html',
@@ -60,7 +58,7 @@ def test(test_name):
     
 
 def set_token():
-    url = "http://localhost:5000/chrono_test/api/"
+    url = app.config['BACKEND_URL']
     json_data = open(app.config['PATH'],'r')
     data = json.load(json_data)
     json_data.close()
