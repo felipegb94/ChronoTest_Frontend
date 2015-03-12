@@ -42,11 +42,8 @@
     </script>
 
 
-  	{%if user%}
-    <h1>Hello, {{ user }}!</h1>
-    {%else%}
-    <h1>Hello</h1>
-    {% endif %}
+    <h1>{{ title }}!</h1>
+
     <h2>{{ tests.name }}</h2>
     <ul>
         {% for t in tests.run_names %}
