@@ -21,8 +21,6 @@
                 /* Load runs for each machine */
                 for(var i = 0; i < run_names.length; i++){
                     run = run_names[i];
-                    tests[run].reverse();
-                    console.log(tests[run]);
                     runs.push(tests[run]);
                 }
 
@@ -50,6 +48,14 @@
     <h1>Hello</h1>
     {% endif %}
     <h2>{{ tests.name }}</h2>
+    <ul>
+        {% for t in tests.run_names %}
+        <li> <strong>{{t}} Most Recent Commit</strong> = {{tests.latest_commits[loop.index0]}}</li> 
+        <li> <strong>{{t}} Most Recent Execution Time</strong> = {{tests.current_execution_times[loop.index0]}} </li>
+        <li> <strong>{{t}} Current Status</strong> = {{tests.status[loop.index0]}} </li>
+        </br>
+        {% endfor %}
+    </ul>
     <table>
     <tr>
         <td>
