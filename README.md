@@ -7,7 +7,10 @@ Clone the repository
 ```
 git clone https://github.com/felipegb94/ChronoTest_Frontend.git
 ```
-
+Navigate to the cloned repos
+```
+cd ChronoTest_Frontend
+```
 Start a virtualenv
 ```
 virtualenv chronoTestFrontend
