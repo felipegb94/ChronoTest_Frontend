@@ -11,8 +11,8 @@ function plot(metrics, run_names, runs){
 		}
 
 		for(var j = 0; j < runs[0].length; j++){
-			row = [runs[0][j].timestamp];
-
+			date = new Date(runs[0][j].timestamp);
+			row = [date];
 
 			for(var k = 0; k < runs.length; k++){
 				try{
