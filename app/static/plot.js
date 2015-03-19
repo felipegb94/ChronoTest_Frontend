@@ -15,7 +15,12 @@ function plot(metrics, run_names, runs){
 
 
 			for(var k = 0; k < runs.length; k++){
-				data_point = runs[k][j].metrics[metric_name];
+				try{
+					data_point = runs[k][j].metrics[metric_name];
+				}catch(TypeError){
+					console.log(runs[k][j]);
+					data_point = 0;
+				}
 				row.push(data_point);
 			}
 			table.push(row);
@@ -33,7 +38,6 @@ function plot(metrics, run_names, runs){
 					   };
 
 		if(first){
-
 			var div = document.createElement("div");
         	div.setAttribute('id', metric_name); // and make sure myclass has some styles in css
         	div.setAttribute('class', 'metric');
@@ -45,7 +49,6 @@ function plot(metrics, run_names, runs){
         	charts.push(chart);
     	}
     	else{
-    		console.log("Second try");
     		var div = document.getElementById(metric_name);
     		charts[i].draw(data, options)
 
