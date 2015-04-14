@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>{{ title }}</h1>
+
+    <ul>
+    {% for test in tests %}
+        <li><strong> <a href = "/tests/{{ test.name }}"> {{ test.name }} </a></strong> </li>
+    {% endfor %}  
+    </ul>  
+
+{% endblock %}

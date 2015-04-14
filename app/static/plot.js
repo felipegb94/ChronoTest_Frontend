@@ -1,5 +1,36 @@
 var first = true;
 var charts = [];
+
+
+function drawChart(run_name) {
+    var run_names = []; // Number of machines + name
+    var runs = []; //  2D Array containing. Cols =  Number of machines, Rows = Run
+            
+    if(first){
+        run_names = tests.run_names;
+
+        /* Load runs for each machine */
+        for(var i = 0; i < run_names.length; i++){
+            run = run_names[i];
+            runs.push(tests[run]);
+        }
+
+        /* Load metric names */
+        for(metric in runs[0][0].metrics){
+            metrics.push(metric);
+        }  
+    }
+    else{
+        run_name = run_name.getAttribute('id');
+        run_names.push(run_name);
+        runs.push(tests[run_name]);
+    }
+
+	plot(metrics, run_names, runs);
+
+}
+
+
 function plot(metrics, run_names, runs){
 	for(var i = 0; i < metrics.length; i++){
 
@@ -41,7 +72,7 @@ function plot(metrics, run_names, runs){
 			var div = document.createElement("div");
         	div.setAttribute('id', metric_name); // and make sure myclass has some styles in css
         	div.setAttribute('class', 'metric');
-        	document.body.appendChild(div);
+        	document.getElementById('metrics').appendChild(div);
 
         	var chart = new google.visualization.LineChart(
         									document.getElementById(metric_name));

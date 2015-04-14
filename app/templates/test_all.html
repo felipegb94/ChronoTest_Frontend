@@ -4,47 +4,33 @@
     <script src="{{ url_for('static', filename='plot.js') }}"></script>
     <script type="text/javascript">
 
-
         // Set a callback to run when the Google Visualization API is loaded.
         google.setOnLoadCallback(drawChart);
         var tests = {{tests|tojson|safe}};
         var metrics = []; // Array with metric names. Size = Number of plots
-        function drawChart(run_name) {
-            var run_names = []; // Number of machines + name
-            var runs = []; //  2D Array containing. Cols =  Number of machines, Rows = Run
-            
-            //console.log(tests);
-            //console.log(run_names);
-            if(first){
-                run_names = tests.run_names;
-
-                /* Load runs for each machine */
-                for(var i = 0; i < run_names.length; i++){
-                    run = run_names[i];
-                    runs.push(tests[run]);
-                }
-
-                /* Load metric names */
-                for(metric in runs[0][0].metrics){
-                    metrics.push(metric);
-                }  
-            }
-            else{
-                run_name = run_name.getAttribute('id');
-                run_names.push(run_name);
-                runs.push(tests[run_name]);
-            }
-
-            plot(metrics, run_names, runs);
-
-      }
         
     </script>
 
 
-    <h1>{{ title }}!</h1>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
 
-    <h2>{{ tests.name }}</h2>
+            <li class="active"><a href = "#" id = "test.name" onClick="window.location.reload()">{{ tests.name }}_all <span class="sr-only">(current)</span></a></li>
+
+            {% for t in tests.run_names %}
+
+            <li><a href = "#" id = "{{ t }}" onClick="drawChart(this)">{{ t }}</a></li>
+
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{{ tests.name }}</h1>
     <ul>
         {% for t in tests.run_names %}
         <li> <strong>{{t}} Most Recent Commit</strong> = {{tests.latest_commits[loop.index0]}}</li> 
@@ -53,19 +39,15 @@
         </br>
         {% endfor %}
     </ul>
-    <table>
-    <tr>
-        <td>
-            <button href = "#" id = "test.name" onClick="window.location.reload()"> {{ tests.name }}_all </button>
-        </td>
-    {% for t in tests.run_names %}
-        <td>
-            <button href = "#" id = "{{ t }}" onClick="drawChart(this)"> {{ t }}      </button>
 
-        </td>
-    {% endfor %}
-    </tr>
+    <div id="metrics">
+        <h2 class="sub-header">Metrics</h2>
+    </div>
 
-    </table>
+
+        </div>
+      </div>
+    </div>
+
 
 {% endblock %}

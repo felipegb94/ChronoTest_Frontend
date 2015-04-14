@@ -33,7 +33,6 @@ def index():
         return render_template('index.html',
             title = "ERROR " + str(tests.status_code)  + ": Failed login")
 
-
 @app.route('/tests/<test_name>')
 @app.route('/tests/<test_name>/')
 def test(test_name):

@@ -1,0 +1,34 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Testing Infrastructure for Project Chrono</title>
+    {% endif %}
+
+    <!--Load the AJAX API-->
+    <script src="{{ url_for('static', filename='jquery-2.1.3.js') }}"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      //Where is my site?
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <!--Load Stylesheets + Bootstrap-->
+
+    <script src="{{ url_for('static', filename='bootstrap-3.3.4-dist/css/bootstrap.min.css') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-3.3.4-dist/js/bootstrap.min.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/button_style.css') }}">
+
+
+  </head>
+  <body>
+
+    <div><a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>
